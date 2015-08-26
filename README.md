@@ -45,3 +45,10 @@ with the time it took in the server-side, in this format:
 It can be modified. The script `LUA_command_to_Redis_formatted.lua` is
 the human-friendly version of `LUA_command_to_Redis_real.lua`.
 
+There is also a script `LUA_command_to_Redis_logging_version_real.lua`
+similar to the above, but which does not affect Redis normal output
+and instead logs the delays of the GET queries to the log mechanism
+Redis is using (syslog, log-file, etc). It has thresholds of delays
+to see with which syslog-priority (`Warning`, `Debug`, etc) to log
+the delay that Redis gave.
+
