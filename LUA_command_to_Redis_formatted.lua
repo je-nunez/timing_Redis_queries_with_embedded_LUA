@@ -14,12 +14,21 @@ local function LUA_TIMESTAMP ()
 end;
 
 local function LUA_GET (redis_key)
-    return redis.call('get', redis_key)
+    local res = redis.pcall('get', redis_key);
+    if type(res) == 'table' and res[1] == 'err' then
+       return 'not found';
+    elseif type(res) == 'boolean' and res then
+       return 'found-only-true-value';
+    elseif type(res) == 'boolean' and not res then
+       return 'error-not-found';
+    else
+       return res;
+    end;
 end;
 
 local ts_start = LUA_TIMESTAMP();
 
-local redis_value = LUA_GET('key-to-search');
+local redis_value = LUA_GET(KEYS[1]);
 
 local ts_end = LUA_TIMESTAMP();
 local delay = ts_end - ts_start;
