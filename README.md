@@ -55,15 +55,15 @@ Redis.
 
 # See also:
 
-See also in Redis the ![EVALSHA](//redis.io/commands/evalsha "EVALSHA")
+See also in Redis the [EVALSHA](//redis.io/commands/evalsha "EVALSHA")
 instruction, to submit a Lua script for `preparation` for (repeated)
 future execution.
 
-Also ![config get lua-time-limit](http://redis.io/commands/EVAL "config get lua-time-limit")
+Also [config get lua-time-limit](http://redis.io/commands/EVAL "config get lua-time-limit")
 to see a parameter that affects somehow the maximum execution time
 allowable for a script,
 
-and ![config get slowlog-log-slower-than](http://redis.io/commands/slowlog "config get slowlog-log-slower-than")
+and [config get slowlog-log-slower-than](http://redis.io/commands/slowlog "config get slowlog-log-slower-than")
 for a way to log when an operation or query in Redis takes too long in the
 server-side.
 
