@@ -55,7 +55,7 @@ Redis.
 
 # See also:
 
-See also in Redis the [EVALSHA](//redis.io/commands/evalsha "EVALSHA")
+See also in Redis the [EVALSHA](http://redis.io/commands/evalsha "EVALSHA")
 instruction, to submit a Lua script for `preparation` for (repeated)
 future execution.
 
