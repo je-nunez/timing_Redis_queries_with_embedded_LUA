@@ -1,4 +1,4 @@
-# timing Redis with embedded LUA
+# timing Redis queries with embedded LUA
 
 Using embedded LUA in Redis to time, server-side, its GET queries.
 
@@ -52,4 +52,18 @@ the delay that Redis gave.
 Both scripts can be modified. The scripts `LUA_*_formatted.lua` here
 are the human-friendly versions of the `LUA_*_real.lua` to send to
 Redis.
+
+# See also:
+
+See also in Redis the ![EVALSHA](//redis.io/commands/evalsha "EVALSHA")
+instruction, to submit a Lua script for `preparation` for (repeated)
+future execution.
+
+Also ![config get lua-time-limit](http://redis.io/commands/EVAL "config get lua-time-limit")
+to see a parameter that affects somehow the maximum execution time
+allowable for a script,
+
+and ![config get slowlog-log-slower-than](http://redis.io/commands/slowlog "config get slowlog-log-slower-than")
+for a way to log when an operation or query in Redis takes too long in the
+server-side.
 
