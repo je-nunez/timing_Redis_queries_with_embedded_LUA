@@ -30,8 +30,13 @@ local ts_start = LUA_TIMESTAMP();
 
 local redis_value = LUA_GET(KEYS[1]);
 
+local lua_redis_multibulk={};
+lua_redis_multibulk[1] = redis_value;
+
 local ts_end = LUA_TIMESTAMP();
 local delay = ts_end - ts_start;
 
-return redis_value .. ' (took in Redis server-side ' .. delay .. ' microseconds)'
+lua_redis_multibulk[2] = 'Timing delay in Redis server-side (microseconds): ' .. delay;
+
+return lua_redis_multibulk;
 
