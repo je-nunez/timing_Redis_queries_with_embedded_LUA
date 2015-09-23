@@ -20,9 +20,10 @@ the end of:
          ....
         <n> rows selected (0.01 sec)
 
-This embedded LUA into Redis is for this, answering to the client
-the value of a GET query in Redis, `plus the delay it took inside
-Redis`:
+The delay in the block above is typical from the timing profile given
+by different SQL servers. This project is for an embedded LUA into Redis
+answering a similar timing profile, so the client gets the value of the
+GET query in Redis, `plus the delay it took inside Redis`:
 
     <VALUE> (took in Redis server-side 68 microseconds)
 
@@ -37,8 +38,8 @@ where the delay of the query has changed now.
 Replace the string `'key-to-search'` in `LUA_command_to_Redis_real.lua`
 in this repository, and send that line as-is to the Redis server
 (e.g., to its port 6379 if it is listening there). Redis will then
-answer a `multi bulk reply` whose first entry is the value of the key,
-and the second entry associated is a string in the format:
+answer a `multi bulk reply` whose `first entry is the value of the key`,
+and the `second entry` is a string in the format:
 
     Timing delay in Redis server-side (microseconds): <DELAY>
 
@@ -46,7 +47,7 @@ with the profiling total delay. (There was an older version of this
 script which made Redis answer, instead of a multi bulk reply, a
 string in the format:
 
-  <VALUE> (took in Redis server-side <DELAY> microseconds)
+    <VALUE> (took in Redis server-side <DELAY> microseconds)
 )
 
 There is also a script `LUA_command_to_Redis_logging_version_real.lua`
