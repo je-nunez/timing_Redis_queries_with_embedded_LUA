@@ -75,3 +75,53 @@ and [config get slowlog-log-slower-than](http://redis.io/commands/slowlog "confi
 for a way to log when an operation or query in Redis takes too long in the
 server-side.
 
+The LUA wrapper with the `time` calls can be made flexible by seeing which
+commands Redis classifies as `read-only` and not `random`, by using the
+`command info` Redis stat:
+
+     command info exists
+     1) 1) "exists"
+        2) (integer) 2
+        3) 1) readonly
+           2) fast
+        ...
+
+     command info ttl
+     1) 1) "ttl"
+        2) (integer) 2
+        3) 1) readonly
+           2) fast
+
+     command info time
+     1) 1) "time"
+        2) (integer) 1
+        3) 1) readonly
+           2) random
+        ...
+
+so `EXISTS` and `TTL` commands are classified as `readonly` and not `random`
+by Redis, so they can be intercepted. Then, for such a generic command `X`
+of Redis which is `readonly` and not `random`, its valid actual parameters 
+among any `arbitrary` call can be found with the
+[command getkeys](http://redis.io/commands/command-getkeys "command getkeys")
+Redis option, which is able to parse and select which arguments are syntactically
+valid in a call and which aren't, so that the LUA interceptor for these
+`readonly` and not `random` queries also drops the unnecessary arguments
+`command getkeys` has said so.
+
+The command `info` on the section `commandstats` can be useful to pick
+which commands are the ones that need to be wrapped with LUA timing,
+or to what delay to lower the `config get slowlog-log-slower-than` to so
+that operations with a higher delay are logged, since `info commandstats`
+shows both the more frequent commands, and the average delay per call
+of each command, so any delay higher than this average, can be logged:
+
+      > info commandstats
+        # Commandstats
+        cmdstat_get:calls=40865153011,usec=98768455102,usec_per_call=2.42
+        ...
+        cmdstat_exists:calls=59271782476,usec=119277054138,usec_per_call=2.01
+        ...
+        cmdstat_ping:calls=33252320,usec=48433512,usec_per_call=1.46
+        ...
+
